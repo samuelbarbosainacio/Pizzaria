@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carrinho - Pizzaria Imperadora</title>
+    <link rel="stylesheet" href="carrinho.css">
+</head>
+<body>
+    <header>
+        <a href="fazendopedido.html" class="voltar-link">
+            <button class="voltar">← Voltar ao Cardápio</button>
+        </a>
+        <img src="Logo.png.png" alt="Logo Pizzaria Imperadora" class="logo3">
+        <h1>Seu Carrinho</h1>
+        <p>Aqui estão os itens que você adicionou.</p>
+    </header>
+
+    <div class="container">
+        <h2>Itens no Carrinho</h2>
+        <div id="carrinho-lista"></div>
+
+        <div class="finalizar-pedido">
+            <h2>Resumo do Pedido</h2>
+            <h3>Total: <span id="preco-total">R$ 0,00</span></h3>
+            <a href="fazendopedido.html">
+                <button id="finalizar-pedido">Finalizar Pedido</button>
+            </a>
+        </div>
+    </div>
+
+    <footer>
+        <p>© 2024 Pizzaria Imperadora. Todos os direitos reservados.</p>
+    </footer>
+
+    <script>
+        function carregarCarrinho() {
+            const lista = document.getElementById('carrinho-lista');
+            const totalSpan = document.getElementById('preco-total');
+            let pedidos = JSON.parse(localStorage.getItem('pedidos')) || [];
+            let totalGeral = 0;
+
+            lista.innerHTML = '';
+
+            if (pedidos.length === 0) {
+                lista.innerHTML = '<p class="vazio">Seu carrinho está vazio.</p>';
+                totalSpan.textContent = 'R$ 0,00';
+                return;
+            }
+
+            pedidos.forEach((pedido, index) => {
+                totalGeral += pedido.total;
+
+                const item = document.createElement('div');
+                item.className = 'pedido-item';
+                item.innerHTML = `
+                    <h3>Pedido ${index + 1}</h3>
+                    <p><strong>Quantidade:</strong> ${pedido.quantidade} pizza(s)</p>
+                    <p><strong>Tamanho:</strong> ${pedido.tamanho}</p>
+                    <p><strong>Sabores:</strong> ${pedido.sabores.join(', ')}</p>
+                    ${pedido.acompanhamentos.length > 0 ? `<p><strong>Acompanhamentos:</strong> ${pedido.acompanhamentos.join(', ')}</p>` : ''}
+                    <p class="preco-item"><strong>Total deste pedido:</strong> R$ ${pedido.total.toFixed(2).replace('.', ',')}</p>
+                    <button class="remover" data-index="${index}">Remover</button>
+                `;
+                lista.appendChild(item);
+            });
+
+            totalSpan.textContent = `R$ ${totalGeral.toFixed(2).replace('.', ',')}`;
+        }
+
+        // Evento para remover itens
+        document.addEventListener('click', (e) => {
+            if (e.target.classList.contains('remover')) {
+                let pedidos = JSON.parse(localStorage.getItem('pedidos')) || [];
+                const index = parseInt(e.target.dataset.index);
+                pedidos.splice(index, 1);
+                localStorage.setItem('pedidos', JSON.stringify(pedidos));
+                carregarCarrinho();
+            }
+        });
+
+        // Finalizar pedido
+        document.getElementById('finalizar-pedido').addEventListener('click', () => {
+            const total = document.getElementById('preco-total').textContent;
+            if (total === 'R$ 0,00') {
+                alert('Seu carrinho está vazio!');
+            } else {
+                alert(`Pedido finalizado com sucesso!\nTotal: ${total}\n\nObrigado por escolher a Pizzaria Imperadora! 🍕`);
+                localStorage.removeItem('pedidos'); // Limpa o carrinho
+                setTimeout(() => window.location.href = "index.html", 1500);
+            }
+        });
+
+        // Carregar ao abrir a página
+        window.onload = carregarCarrinho;
+    </script>
+</body>
+</html>

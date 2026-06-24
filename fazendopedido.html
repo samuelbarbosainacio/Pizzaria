@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fazer Pedido - Pizzaria Imperadora</title>
+    <link rel="stylesheet" href="fazendopedido.css">
+</head>
+<body>
+    <header>
+    <a href="páginadelogin.html" class="voltar-link">
+        <button class="Sair">← Sair</button>
+    </a>
+    <h1 class="titulo">Pizzaria Imperadora</h1>
+    <img src="Logo.png.png" alt="Logo" class="logo2" width="50%">
+</header>
+
+    <div class="container">
+        <h2 class="Titulos">Quantidade de Pizzas</h2>
+        <label for="quantidade">Quantas pizzas você deseja? (máx. 10)</label>
+        <input type="number" id="quantidade" value="1" min="1" max="10">
+
+        <h2 class="Titulos">Tamanho da Pizza</h2>
+        <div class="form-group">
+            <label><input type="radio" name="tamanho" value="15"> Broto - R$ 15</label>
+            <label><input type="radio" name="tamanho" value="20"> Pequena - R$ 20</label>
+            <label><input type="radio" name="tamanho" value="35" checked> Média - R$ 35</label>
+            <label><input type="radio" name="tamanho" value="45"> Grande - R$ 45</label>
+            <label><input type="radio" name="tamanho" value="55"> Gigante - R$ 55</label>
+        </div>
+
+        <h2 class="Titulos">Sabores</h2>
+        <div class="form-group">
+            <label><input type="checkbox" class="sabor" value="10"> Margherita</label>
+            <label><input type="checkbox" class="sabor" value="10"> Calabresa</label>
+            <label><input type="checkbox" class="sabor" value="10"> 4 Queijos</label>
+            <label><input type="checkbox" class="sabor" value="10"> Portuguesa</label>
+            <label><input type="checkbox" class="sabor" value="10"> Frango com Catupiry</label>
+            <label><input type="checkbox" class="sabor" value="10"> Napolitana</label>
+            <label><input type="checkbox" class="sabor" value="10"> Palmito</label>
+            <label><input type="checkbox" class="sabor" value="10"> Pepperoni</label>
+            <label><input type="checkbox" class="sabor" value="10"> Muçarela</label>
+            <label><input type="checkbox" class="sabor" value="15"> Brigadeiro (doce)</label>
+        </div>
+
+        <h2 class="Titulos">Acompanhamentos</h2>
+        <div class="form-group">
+            <label><input type="checkbox" class="acomp" value="10"> Refrigerante 2L - R$ 10</label>
+            <label><input type="checkbox" class="acomp" value="8"> Cerveja 600ml - R$ 8</label>
+            <label><input type="checkbox" class="acomp" value="5"> Molho Barbecue - R$ 5</label>
+        </div>
+
+        <h2 class="Titulos">Preço Total: <span id="preco-total">R$ 45,00</span></h2>
+<a href="carrinho.html">
+        <button class="Enviar" id="btn-enviar">Adicionar ao Carrinho</button>
+    </a></div>
+
+    <script>
+        // === Cálculo do preço em tempo real ===
+        const quantidadeInput = document.getElementById('quantidade');
+        const tamanhoRadios = document.querySelectorAll('input[name="tamanho"]');
+        const sabores = document.querySelectorAll('.sabor');
+        const acompanhamentos = document.querySelectorAll('.acomp');
+        const precoTotalSpan = document.getElementById('preco-total');
+
+        function calcularTotal() {
+            const quantidade = parseInt(quantidadeInput.value) || 0;
+
+            let precoTamanho = 0;
+            tamanhoRadios.forEach(radio => {
+                if (radio.checked) precoTamanho = parseFloat(radio.value);
+            });
+
+            let precoSabores = 0;
+            sabores.forEach(sabor => {
+                if (sabor.checked) precoSabores += parseFloat(sabor.value);
+            });
+
+            let precoAcomps = 0;
+            acompanhamentos.forEach(acomp => {
+                if (acomp.checked) precoAcomps += parseFloat(acomp.value);
+            });
+
+            const total = quantidade * (precoTamanho + precoSabores + precoAcomps);
+            precoTotalSpan.textContent = `R$ ${total.toFixed(2).replace('.', ',')}`;
+        }
+
+        // Eventos de cálculo
+        quantidadeInput.addEventListener('input', calcularTotal);
+        tamanhoRadios.forEach(radio => radio.addEventListener('change', calcularTotal));
+        sabores.forEach(sabor => sabor.addEventListener('change', calcularTotal));
+        acompanhamentos.forEach(acomp => acomp.addEventListener('change', calcularTotal));
+
+        // === Adicionar ao Carrinho ===
+        document.getElementById('btn-enviar').addEventListener('click', () => {
+            const quantidade = parseInt(quantidadeInput.value) || 1;
+            
+            let tamanhoSelecionado = "";
+            tamanhoRadios.forEach(radio => {
+                if (radio.checked) {
+                    tamanhoSelecionado = radio.parentElement.textContent.trim();
+                }
+            });
+
+            const saboresSelecionados = Array.from(document.querySelectorAll('.sabor:checked'))
+                .map(s => s.parentElement.textContent.trim());
+
+            const acompsSelecionados = Array.from(document.querySelectorAll('.acomp:checked'))
+                .map(a => a.parentElement.textContent.trim());
+
+            const totalTexto = precoTotalSpan.textContent.replace('R$', '').replace(',', '.');
+            const total = parseFloat(totalTexto);
+
+            if (!tamanhoSelecionado || saboresSelecionados.length === 0) {
+                alert("Por favor, selecione o tamanho e pelo menos um sabor!");
+                return;
+            }
+
+            const pedido = {
+                quantidade: quantidade,
+                tamanho: tamanhoSelecionado,
+                sabores: saboresSelecionados,
+                acompanhamentos: acompsSelecionados,
+                total: total
+            };
+
+            // Salva no localStorage
+            let pedidos = JSON.parse(localStorage.getItem('pedidos')) || [];
+            pedidos.push(pedido);
+            localStorage.setItem('pedidos', JSON.stringify(pedidos));
+
+            alert('✅ Pedido adicionado ao carrinho com sucesso!');
+            // window.location.href = "carrinho.html"; // descomente se quiser redirecionar automático
+        });
+
+        // Calcular preço ao carregar a página
+        window.onload = calcularTotal;
+    </script>
+</body>
+</html>

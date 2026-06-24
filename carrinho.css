@@ -1,0 +1,112 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #f8f1e3;
+    font-family: 'Arial', sans-serif;
+    color: #333;
+}
+
+header {
+    background-color: #b22222;
+    color: white;
+    text-align: center;
+    padding: 20px 0;
+}
+
+header h1 {
+    margin: 10px 0 5px 0;
+}
+
+.voltar {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    padding: 10px 16px;
+    background-color: white;
+    color: #b22222;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.logo3 {
+    display: block;
+    margin: 15px auto;
+    max-width: 220px;
+    height: auto;
+}
+
+.container {
+    max-width: 700px;
+    margin: 30px auto;
+    padding: 20px;
+}
+
+#carrinho-lista {
+    margin-bottom: 30px;
+}
+
+.pedido-item {
+    background: white;
+    padding: 20px;
+    margin-bottom: 15px;
+    border-radius: 10px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+}
+
+.pedido-item h3 {
+    color: #b22222;
+    margin-bottom: 12px;
+}
+
+.preco-item {
+    font-size: 18px;
+    color: #b22222;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+.remover {
+    background: #ff4444;
+    color: white;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.finalizar-pedido {
+    background: white;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    text-align: center;
+}
+
+.finalizar-pedido button {
+    width: 100%;
+    padding: 15px;
+    font-size: 20px;
+    background: #b22222;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    margin-top: 15px;
+    cursor: pointer;
+}
+
+footer {
+    background-color: #b22222;
+    color: white;
+    text-align: center;
+    padding: 15px 0;
+    margin-top: 50px;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
