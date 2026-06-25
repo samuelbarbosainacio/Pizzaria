@@ -8,16 +8,97 @@
 </head>
 <body>
     <header>
-        <img src="Logo.png.png" alt="logo do bagulho" width="50%">
-        <h1>Escolha sua forma de Pagamento</h1>
+        <a href="carrinho.html" class="voltar-link">
+            <button class="Sair">← Voltar ao Carrinho</button>
+        </a>
+        <img src="Logo.png.png" alt="Logo Pizzaria Imperadora" class="logo">
+        <h1>Escolha a Forma de Pagamento</h1>
     </header>
-    <div class="container">
-            <label><input type="radio" name="Pagamento">Cartão de crédito</label>
-            <label><input type="radio" name="Pagamento">Cartão de Débito</label>
-            <label><input type="radio" name="Pagamento">Pix</label>
-            <label><input type="radio" name="Pagamento">Dinheiro em espécie</label>
-        </div>
 
-<footer>© 2024 Pizzaria Imperadora. Todos os direitos reservados.</footer>
+ <div class="container">
+    <h2>Escolha a Forma de Pagamento</h2>
+    
+    <label><input type="radio" name="pagamento" value="credito"> Cartão de Crédito</label>
+    <label><input type="radio" name="pagamento" value="debito"> Cartão de Débito</label>
+    <label><input type="radio" name="pagamento" value="pix"> Pix</label>
+    <label><input type="radio" name="pagamento" value="dinheiro"> Dinheiro em Espécie</label>
+
+   
+    <div id="campo-extra"></div>
+
+    <button class="finalizar-pedido" id="finalizar-pedido">Finalizar Pagamento</button>
+</div>
+
+    <footer>
+        <p>© 2024 Pizzaria Imperadora. Todos os direitos reservados.</p>
+    </footer>
+
+<script>
+    const radios = document.querySelectorAll('input[name="pagamento"]');
+    const campoExtra = document.getElementById('campo-extra');
+    const btnFinalizar = document.getElementById('finalizar-pedido');
+
+  
+    radios.forEach(radio => {
+        radio.addEventListener('change', () => {
+            const valor = radio.value;
+            campoExtra.innerHTML = ''; 
+
+            if (valor === 'credito' || valor === 'debito') {
+                campoExtra.innerHTML = `
+                    
+                    <input type="text" id="numero-cartao" placeholder="0000 0000 0000 0000" maxlength="19">
+                `;
+            } 
+            else if (valor === 'pix') {
+                campoExtra.innerHTML = `
+                    
+                    <input type="text" id="chave-pix" placeholder="Digite sua chave Pix">
+                `;
+            }
+           
+        });
+    });
+
+  
+    btnFinalizar.addEventListener('click', () => {
+        const formaSelecionada = document.querySelector('input[name="pagamento"]:checked');
+
+        if (!formaSelecionada) {
+            alert("Por favor, selecione uma forma de pagamento!");
+            return;
+        }
+
+        const tipo = formaSelecionada.value;
+
+        if (tipo === 'dinheiro') {
+            alert("Pedido confirmado!\n\nVocê vai pagar em dinheiro com o entregador.\nObrigado por escolher a Pizzaria Imperadora! ");
+        } 
+        else if (tipo === 'credito' || tipo === 'debito') {
+            const numeroCartao = document.getElementById('numero-cartao').value.trim();
+            
+            if (!numeroCartao) {
+                alert(" Por favor, digite o número do cartão!");
+                return;
+            }
+            
+            alert(`Pagamento via ${tipo === 'credito' ? 'Cartão de Crédito' : 'Cartão de Débito'} confirmado!\nNúmero: ${numeroCartao}\n\nObrigado! `);
+        } 
+        else if (tipo === 'pix') {
+            const chavePix = document.getElementById('chave-pix').value.trim();
+            
+            if (!chavePix) {
+                alert(" Por favor, digite sua chave Pix!");
+                return;
+            }
+            
+            alert(` Pagamento via Pix confirmado!\nChave: ${chavePix}\n\nObrigado por escolher a Pizzaria Imperadora! `);
+        }
+
+      
+        localStorage.removeItem('pedidos');
+        setTimeout(() => window.location.href = "index.html", 2000);
+    });
+</script>
 </body>
 </html>

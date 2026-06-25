@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pedido Rápido - Pizzaria Imperadora</title>
+    <link rel="stylesheet" href="pedindorapido.css">
+</head>
+<body>
+    <header>
+        <a href="páginadelogin.html" class="voltar-link">
+            <button class="Sair">← Voltar</button>
+        </a>
+        <img src="Logo.png.png" alt="Logo Pizzaria Imperadora" class="logo">
+        <h1>Pedido Rápido</h1>
+        <h2>Itens em Oferta</h2>
+    </header>
+
+    <div class="container">
+        <div class="item">
+            <div>
+                <h3>Pizza Média</h3>
+                <p>Escolha até 2 sabores</p>
+                <p><strong>Preço: R$ 35,00</strong></p>
+            </div>
+            <button class="adicionar" data-nome="Pizza Média" data-preco="35">Adicionar ao Carrinho</button>
+        </div>
+
+        <div class="item">
+            <div>
+                <h3>Pizza Grande</h3>
+                <p>Escolha até 3 sabores</p>
+                <p><strong>Preço: R$ 45,00</strong></p>
+            </div>
+            <button class="adicionar" data-nome="Pizza Grande" data-preco="45">Adicionar ao Carrinho</button>
+        </div>
+
+        <div class="item">
+            <div>
+                <h3>Pizza Gigante</h3>
+                <p>Escolha até 4 sabores</p>
+                <p><strong>Preço: R$ 55,00</strong></p>
+            </div>
+            <button class="adicionar" data-nome="Pizza Gigante" data-preco="55">Adicionar ao Carrinho</button>
+        </div>
+
+        <div class="item">
+            <div>
+                <h3>Pizza Pequena</h3>
+                <p>Escolha até 2 sabores</p>
+                <p><strong>Preço: R$ 19,00</strong></p>
+            </div>
+            <button class="adicionar" data-nome="Pizza Pequena" data-preco="19">Adicionar ao Carrinho</button>
+        </div>
+
+        <div class="item">
+            <div>
+                <h3>Refrigerante 2L</h3>
+                <p>Acompanhamento</p>
+                <p><strong>Preço: R$ 10,00</strong></p>
+            </div>
+            <button class="adicionar" data-nome="Refrigerante 2L" data-preco="10">Adicionar ao Carrinho</button>
+        </div>
+
+        <div class="item">
+            <div>
+                <h3>Cerveja 600ml</h3>
+                <p>Acompanhamento</p>
+                <p><strong>Preço: R$ 8,00</strong></p>
+            </div>
+            <button class="adicionar" data-nome="Cerveja 600ml" data-preco="8">Adicionar ao Carrinho</button>
+        </div>
+
+        <div class="item">
+            <div>
+                <h3>Molho Barbecue</h3>
+                <p>Acompanhamento</p>
+                <p><strong>Preço: R$ 5,00</strong></p>
+            </div>
+            <button class="adicionar" data-nome="Molho Barbecue" data-preco="5">Adicionar ao Carrinho</button>
+        </div>
+    </div>
+
+    <a href="carrinho.html">
+        <button class="Enviar">Ir para o Carrinho</button>
+    </a>
+
+    <footer>
+        <p>© 2024 Pizzaria Imperadora. Todos os direitos reservados.</p>
+    </footer>
+
+    <script>
+        const botoes = document.querySelectorAll('.adicionar');
+
+        botoes.forEach(botao => {
+            botao.addEventListener('click', () => {
+                const nome = botao.getAttribute('data-nome');
+                const preco = parseFloat(botao.getAttribute('data-preco'));
+
+                const item = {
+                    quantidade: 1,
+                    tamanho: nome,           
+                    sabores: [],
+                    acompanhamentos: [],
+                    total: preco
+                };
+
+                let pedidos = JSON.parse(localStorage.getItem('pedidos')) || [];
+                pedidos.push(item);
+                localStorage.setItem('pedidos', JSON.stringify(pedidos));
+
+                alert(`✅ ${nome} adicionado ao carrinho!`);
+            });
+        });
+    </script>
+</body>
+</html>

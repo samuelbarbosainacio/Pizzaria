@@ -25,14 +25,27 @@
             <label for="endereco">Seu Endereço:</label>
             <input type="text" id="endereco" placeholder="Digite seu endereço completo" required>
         </form>
-
-        <a href="fazendopedido.html">
-            <button class="Enviar2">Começar o Pedido</button>
-        </a>
+<br>
+            <h2>Para começar, escolha como vai montar seu pedido</h2>
+            <button id="comecar-pedido1" class="Enviar2">Montar detalhadamente</button>
+            <button id="comecar-pedido2" class="Enviar2">Montar rapidamente</button>
+        
     </div>
 
     <footer>
         <p>© 2024 Pizzaria Imperadora. Todos os direitos reservados.</p>
     </footer>
+    <script>
+        const comecarPedido1 = document.getElementById('comecar-pedido1');
+        const comecarPedido2 = document.getElementById('comecar-pedido2');
+
+        comecarPedido1.addEventListener('click', function() {
+            window.location.href = 'fazendopedido.html';
+        });
+
+        comecarPedido2.addEventListener('click', function() {
+            window.location.href = 'pedindorapido.html';
+        });
+    </script>
 </body>
 </html>

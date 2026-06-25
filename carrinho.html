@@ -23,9 +23,7 @@
         <div class="finalizar-pedido">
             <h2>Resumo do Pedido</h2>
             <h3>Total: <span id="preco-total">R$ 0,00</span></h3>
-            <a href="fazendopedido.html">
-                <button id="finalizar-pedido">Finalizar Pedido</button>
-            </a>
+            <button id="finalizar-pedido">Ir para Pagamento</button>
         </div>
     </div>
 
@@ -43,7 +41,7 @@
             lista.innerHTML = '';
 
             if (pedidos.length === 0) {
-                lista.innerHTML = '<p class="vazio">Seu carrinho está vazio.</p>';
+                lista.innerHTML = '<p class="vazio">Seu carrinho está vazio. <a href="fazendopedido.html">Fazer pedido</a></p>';
                 totalSpan.textContent = 'R$ 0,00';
                 return;
             }
@@ -60,7 +58,7 @@
                     <p><strong>Sabores:</strong> ${pedido.sabores.join(', ')}</p>
                     ${pedido.acompanhamentos.length > 0 ? `<p><strong>Acompanhamentos:</strong> ${pedido.acompanhamentos.join(', ')}</p>` : ''}
                     <p class="preco-item"><strong>Total deste pedido:</strong> R$ ${pedido.total.toFixed(2).replace('.', ',')}</p>
-                    <button class="remover" data-index="${index}">Remover</button>
+                    <button class="remover" data-index="${index}">Remover Pedido</button>
                 `;
                 lista.appendChild(item);
             });
@@ -68,7 +66,6 @@
             totalSpan.textContent = `R$ ${totalGeral.toFixed(2).replace('.', ',')}`;
         }
 
-        // Evento para remover itens
         document.addEventListener('click', (e) => {
             if (e.target.classList.contains('remover')) {
                 let pedidos = JSON.parse(localStorage.getItem('pedidos')) || [];
@@ -79,19 +76,20 @@
             }
         });
 
-        // Finalizar pedido
+   
         document.getElementById('finalizar-pedido').addEventListener('click', () => {
-            const total = document.getElementById('preco-total').textContent;
-            if (total === 'R$ 0,00') {
-                alert('Seu carrinho está vazio!');
-            } else {
-                alert(`Pedido finalizado com sucesso!\nTotal: ${total}\n\nObrigado por escolher a Pizzaria Imperadora! 🍕`);
-                localStorage.removeItem('pedidos'); // Limpa o carrinho
-                setTimeout(() => window.location.href = "index.html", 1500);
+            let pedidos = JSON.parse(localStorage.getItem('pedidos')) || [];
+
+            if (pedidos.length === 0) {
+                alert(" Seu carrinho está vazio!");
+                return;
             }
+
+        
+            window.location.href = "pagamento.html";
         });
 
-        // Carregar ao abrir a página
+       
         window.onload = carregarCarrinho;
     </script>
 </body>

@@ -51,18 +51,20 @@
         </div>
 
         <h2 class="Titulos">Preço Total: <span id="preco-total">R$ 45,00</span></h2>
-<a href="carrinho.html">
-        <button class="Enviar" id="btn-enviar">Adicionar ao Carrinho</button>
-    </a></div>
 
-    <script>
-        // === Cálculo do preço em tempo real ===
+        <button class="Enviar" id="btn-enviar">Adicionar ao Carrinho</button>
+    </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+    
         const quantidadeInput = document.getElementById('quantidade');
         const tamanhoRadios = document.querySelectorAll('input[name="tamanho"]');
         const sabores = document.querySelectorAll('.sabor');
         const acompanhamentos = document.querySelectorAll('.acomp');
         const precoTotalSpan = document.getElementById('preco-total');
-
+        const btnEnviar = document.getElementById('btn-enviar');
+  
         function calcularTotal() {
             const quantidade = parseInt(quantidadeInput.value) || 0;
 
@@ -84,35 +86,40 @@
             const total = quantidade * (precoTamanho + precoSabores + precoAcomps);
             precoTotalSpan.textContent = `R$ ${total.toFixed(2).replace('.', ',')}`;
         }
-
-        // Eventos de cálculo
+      
         quantidadeInput.addEventListener('input', calcularTotal);
         tamanhoRadios.forEach(radio => radio.addEventListener('change', calcularTotal));
         sabores.forEach(sabor => sabor.addEventListener('change', calcularTotal));
         acompanhamentos.forEach(acomp => acomp.addEventListener('change', calcularTotal));
-
-        // === Adicionar ao Carrinho ===
-        document.getElementById('btn-enviar').addEventListener('click', () => {
+ 
+        btnEnviar.addEventListener('click', () => {
             const quantidade = parseInt(quantidadeInput.value) || 1;
-            
+   
             let tamanhoSelecionado = "";
             tamanhoRadios.forEach(radio => {
                 if (radio.checked) {
                     tamanhoSelecionado = radio.parentElement.textContent.trim();
                 }
             });
-
+  
             const saboresSelecionados = Array.from(document.querySelectorAll('.sabor:checked'))
                 .map(s => s.parentElement.textContent.trim());
 
             const acompsSelecionados = Array.from(document.querySelectorAll('.acomp:checked'))
                 .map(a => a.parentElement.textContent.trim());
 
-            const totalTexto = precoTotalSpan.textContent.replace('R$', '').replace(',', '.');
-            const total = parseFloat(totalTexto);
+            const total = parseFloat(precoTotalSpan.textContent.replace('R$', '').replace(',', '.'));
 
-            if (!tamanhoSelecionado || saboresSelecionados.length === 0) {
-                alert("Por favor, selecione o tamanho e pelo menos um sabor!");
+            if (!tamanhoSelecionado) {
+                alert(" Por favor, selecione o tamanho da pizza!");
+                return;
+            }
+            if (saboresSelecionados.length === 0) {
+                alert(" Por favor, selecione pelo menos um sabor!");
+                return;
+            }
+            if (quantidade < 1) {
+                alert(" A quantidade mínima é 1!");
                 return;
             }
 
@@ -124,17 +131,16 @@
                 total: total
             };
 
-            // Salva no localStorage
             let pedidos = JSON.parse(localStorage.getItem('pedidos')) || [];
             pedidos.push(pedido);
             localStorage.setItem('pedidos', JSON.stringify(pedidos));
 
-            alert('✅ Pedido adicionado ao carrinho com sucesso!');
-            // window.location.href = "carrinho.html"; // descomente se quiser redirecionar automático
+            
+            alert(' Pedido adicionado ao carrinho com sucesso!');
+            window.location.href = "carrinho.html";
         });
-
-        // Calcular preço ao carregar a página
-        window.onload = calcularTotal;
-    </script>
+        calcularTotal();
+    });
+</script>
 </body>
 </html>

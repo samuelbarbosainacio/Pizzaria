@@ -19,10 +19,6 @@ header {
     position: relative;
 }
 
-header h1 {
-    margin: 15px 0 10px 0;
-}
-
 .logo {
     display: block;
     margin: 10px auto;
@@ -50,37 +46,60 @@ header h1 {
 }
 
 .container {
-    max-width: 500px;
-    margin: 40px auto;
-    padding: 30px;
+    max-width: 800px;
+    margin: 30px auto;
+    padding: 20px;
+}
+
+.item {
     background: white;
+    padding: 20px;
+    margin-bottom: 15px;
     border-radius: 12px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-    text-align: center;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 15px;
 }
 
-.container h2 {
+.item h3 {
     color: #b22222;
-    margin-bottom: 20px;
+    margin-bottom: 5px;
 }
 
-.container label {
-    display: block;
-    padding: 12px 0;
-    font-size: 18px;
+.item p {
+    margin-bottom: 5px;
+}
+
+.adicionar {
+    background-color: #b22222;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 8px;
     cursor: pointer;
+    font-weight: bold;
+    transition: 0.3s;
 }
 
-.container input[type="radio"] {
-    margin-right: 10px;
-    transform: scale(1.2);
+.adicionar:hover {
+    background-color: #8b1a1a;
 }
 
-.finalizar-pedido {
+footer {
+    background-color: #3d1818;
+    color: white;
+    text-align: center;
+    padding: 15px 0;
+    margin-top: 50px;
+}
+
+.Enviar {
     display: block;
-    width: 80%;
-    max-width: 300px;
-    margin: 40px auto 20px;
+    width: 40%;
+    margin: 30px auto 10px;
     padding: 15px;
     font-size: 20px;
     background-color: #b22222;
@@ -91,14 +110,6 @@ header h1 {
     font-weight: bold;
 }
 
-.finalizar-pedido:hover {
+.Enviar:hover {
     background-color: #8b1a1a;
-}
-
-footer {
-    background-color: #3d1818;
-    color: white;
-    text-align: center;
-    padding: 15px 0;
-    margin-top: 50px;
 }
