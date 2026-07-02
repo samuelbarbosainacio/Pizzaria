@@ -48,12 +48,14 @@
                 campoExtra.innerHTML = `
                     
                     <input type="text" id="numero-cartao" placeholder="0000 0000 0000 0000" maxlength="19">
+                    
+                     <input type="text" id="senha" placeholder="0000" maxlength="4">
                 `;
             } 
             else if (valor === 'pix') {
                 campoExtra.innerHTML = `
                     
-                     id="chave-pix" <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSJC63GB7QgAOvE8F7hR3Q_jq0iiHynP7zuiIrfO5KBzw&s=10" alt="qrcode" class="qrcode">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSJC63GB7QgAOvE8F7hR3Q_jq0iiHynP7zuiIrfO5KBzw&s=10" alt="qrcode" class="qrcode">
                 `;
             }
            
